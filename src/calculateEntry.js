@@ -1,4 +1,3 @@
-const { name } = require('faker/locale/pt_BR');
 const { prices } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
@@ -10,7 +9,7 @@ const counterPeople = (people) => {
     else output.senior += 1;
   });
   return output;
-}
+};
 
 function countEntrants(entrants) {
   return counterPeople(entrants);
@@ -29,9 +28,3 @@ function calculateEntry(entrants) {
 }
 
 module.exports = { calculateEntry, countEntrants };
-
-// const entrants = {};
-  
-  
-// console.log(countEntrants(entrants));
-// console.log(calculateEntry(entrants));
