@@ -3,7 +3,7 @@ const { prices } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
 const counterPeople = (people) => {
-  const output = { child: 0, adult: 0, senior: 0};
+  const output = { child: 0, adult: 0, senior: 0 };
   people.forEach((person) => {
     if (person.age < 18) output.child += 1;
     else if (person.age >= 18 && person.age < 50) output.adult += 1;
@@ -19,7 +19,7 @@ function countEntrants(entrants) {
 function calculateEntry(entrants) {
   if (!entrants || entrants.length === undefined) return 0;
   let totalValue = 0;
-  const guests = countEntrants(entrants)
+  const guests = countEntrants(entrants);
 
   totalValue = guests.child * prices.child
   + guests.adult * prices.adult
