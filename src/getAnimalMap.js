@@ -90,27 +90,6 @@ const snakesNames = () => {
   return cobras;
 };
 
-function getAnimalMap(options) {
-  if (!options) {
-    return mapaAnimais;
-  }
-  if (options.sex === 'female' && options.includeNames === undefined) {
-    return mapaAnimais;
-  }
-  if (options.includeNames === true && options.sorted === true && options.sex !== undefined) {
-    return namesSexSorted('female');
-  }
-  if (options.includeNames === true && options.sex === 'female') {
-    return namesSex('female');
-  }
-  if (options.sorted === true) {
-    return animaisOrdenados;
-  }
-  if (options.includeNames === true) {
-    return aniMap2;
-  }
-}
-
 const aniMap2 = {
   NE: [
     { lions: lionNames() },
@@ -153,25 +132,43 @@ const animaisOrdenados = {
   ],
 };
 
-let namesSex = (param) => {
-  const object = {};
-  
-  species.map((specie) => (!object[specie.location] ? (object[specie.location] = [{[specie.name]: specie.residents.filter((sexo) => sexo.sex === param).map((nombre) => nombre.name),},]) : object[specie.location].push({[specie.name]: specie.residents.filter((sexo) => sexo.sex === param).map((nombre) => nombre.name),})));
+const namesSex = (param) => {
+  const object = { NE: [], NW: [], SE: [], SW: [] };
+
+  species.map((specie) => (object[specie.location].push({ [specie.name]: specie.residents
+    .filter((sexo) => sexo.sex === param).map((nombre) => nombre.name) })));
   return object;
 };
 
-function namesSexSorted(param) {
-  const object = {};
-  species.map((specie) => (!object[specie.location] ?
-    (object[specie.location] = [{[specie.name]: specie.residents
-      .filter((sexo) => sexo.sex === param).map((nombre) => nombre.name)
-      .sort(),},]) :object[specie.location].push({[specie.name]: specie
-        .residents.filter((sexo) => sexo.sex === param).map((nombre) => nombre.name).sort(),})));
-   
+const namesSexSorted = (param) => {
+  const object = { NE: [], NW: [], SE: [], SW: [] };
+
+  species.map((specie) => (object[specie.location].push({ [specie.name]: specie.residents
+    .filter((sexo) => sexo.sex === param).map((nombre) => nombre.name).sort() })));
   return object;
 };
+
+function partB(options) {
+  if (options.includeNames === true && options.sex === 'female') return namesSex('female');
+
+  if (options.sorted === true) return animaisOrdenados;
+
+  if (options.includeNames === true) return aniMap2;
+}
+
+function partA(options) {
+  if (options.includeNames === true
+    && options.sorted === true && options.sex !== undefined) return namesSexSorted('female');
+
+  return partB(options);
+}
+
+function getAnimalMap(options) {
+  if (!options) return mapaAnimais;
+
+  if (options.sex === 'female' && options.includeNames === undefined) return mapaAnimais;
+
+  return partA(options);
+}
 
 module.exports = getAnimalMap;
-
-// console.log(getAnimalMap({ includeNames: true, sex: 'female' }));
-// console.log(options.sex);
